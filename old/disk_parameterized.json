@@ -1,0 +1,53 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "disk_name": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the disk."
+              }
+        },
+        "Image_name": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the Image."
+              }
+        }
+        
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/disks",
+            "apiVersion": "2021-08-01",
+            "name": "[parameters('disks_name')]",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('resourceTags')]",
+            "sku": {
+                "name": "StandardSSD_LRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "osType": "Windows",
+                "hyperVGeneration": "V1",
+                "supportedCapabilities": {},
+                "creationData": {
+                    "createOption": "Copy",
+                    "sourceResourceId": "[parameters('image_name')]"
+                },
+                "diskSizeGB": 127,
+                "diskIOPSReadWrite": 500,
+                "diskMBpsReadWrite": 60,
+                "encryption": {
+                    "type": "EncryptionAtRestWithPlatformKey"
+                },
+                "networkAccessPolicy": "AllowAll",
+                "publicNetworkAccess": "Enabled",
+                "diskState": "Attached"
+            }
+        }
+    ]
+}

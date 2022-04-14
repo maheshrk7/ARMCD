@@ -1,0 +1,14 @@
+"virtualMachineName": Name of the VM acc to standard naming convention. 
+"virtualMachineSize": The virtual machine size.
+"existingVirtualNetworkName": Specify the name of an existing VNet in the same resource group
+"existingVnetResourceGroup": Specify the resrouce group of the existing VNet
+"existingSubnetName": Specify the name of the Subnet Name"
+"imageOffer": Windows Server and SQL Offer
+"sqlSku": SQL Server Sku
+"adminUsername": The admin user name of the VM
+"adminPassword": The admin password of the VM
+"storageWorkloadType": Amount of data disks for SQL Data files in TB. 
+"dataPath": Path for SQL Data files. Please choose drive letter from F to Z, and other drives from A to E are reserved for system
+"sqlLogDisksCount": Amount of data disks (1TB each) for SQL Log files
+"logPath": Path for SQL Log files. Please choose drive letter from F to Z and different than the one used for SQL data. Drive letter from A to E are reserved for system"
+"location": Location for all resources. 

@@ -1,0 +1,15 @@
+This template deploys a key vault along with given access policies. 
+
+"name": Specifies the name of the key vault. 
+"location": Specifies the Azure location where the key vault should be created. 
+"sku": Specifies whether the key vault is a standard vault or a premium vault. 
+"accessPolicies": Defines the access policies for Keys, secrets and certificates. 
+"tenant": Specifies the Azure Active Directory tenant ID that should be used for authenticating requests to the key vault. 
+"enabledForDeployment": Specifies whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault. Set to True or False. 
+"enabledForTemplateDeployment": Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault. Set to True or False. 
+"enabledForDiskEncryption": Specifies whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys. Set to True or False. 
+"enableRbacAuthorization": Specifies whether access method is through RBAC or access policies. Set to False if access policies are defined else set to True. 
+"publicNetworkAccess": Specifies if Key vault can be accessed publicly or through Private endpoint. Set to False if Private Endpoint is prefered. 
+"softDeleteRetentionInDays": Specifies number of days to retain Key vault resource. It can be configured to between 7 to 90 days. 
+"secretName": Specifies the name of the secret that you want to create. 
+"secretValue": Specifies the value of the secret that you want to create. 

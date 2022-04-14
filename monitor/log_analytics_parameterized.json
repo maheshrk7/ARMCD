@@ -1,0 +1,69 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": 
+  {
+      "workspaceName": {
+          "type": "string",
+          "defaultValue": "test_workspace"
+      },
+      "sku": {
+          "type": "string",
+          "defaultValue": "pergb2018",
+          "allowedValues": [
+            "pergb2018",
+            "Free",
+            "Standalone",
+            "PerNode",
+            "Standard",
+            "Premium"
+            ]
+        },
+        "location": {
+          "type": "string",
+          "defaultValue": "eastus"
+        },
+        "retentionInDays": {
+          "type": "int",
+          "defaultValue": 120
+        },
+        "resourcePermissions": {
+          "type": "bool",
+          "defaultValue": true
+        },
+        "heartbeatTableRetention": {
+          "type": "int",
+          "defaultValue": 30
+        }  
+      },
+      "resources": [
+      {
+          "type": "Microsoft.OperationalInsights/workspaces",
+          "name": "[parameters('workspaceName')]",
+          "apiVersion": "2020-08-01",
+          "location": "[parameters('location')]",
+          "properties": {
+              "sku": {
+                  "name": "[parameters('sku')]"
+              },
+              "retentionInDays": "[parameters('retentionInDays')]",
+              "features": {
+                  "enableLogAccessUsingOnlyResourcePermissions": "[parameters('resourcePermissions')]"
+              }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.OperationalInsights/workspaces/tables",
+              "apiVersion": "2020-08-01",
+              "name": "[concat(parameters('workspaceName'),'/','Heartbeat')]",
+              "dependsOn": [
+                "[parameters('workspaceName')]"
+              ],
+              "properties": {
+                "RetentionInDays": "[parameters('heartbeatTableRetention')]"
+              }
+            }
+          ]
+      }
+  ]
+}

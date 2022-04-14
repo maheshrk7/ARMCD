@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "networkInterfaces_name": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the NIC."
+              }
+        },
+        "virtualNetworks_name": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the Virtual Network."
+              }
+        },
+        "resourceTags": {
+            "type": "object",
+            "defaultValue": {
+                "Application": "",
+                "ApplicationID": "",
+                "Environment": ""
+                
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('networkInterfaces_name')]",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('resourceTags')]",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig",
+                        "properties": {
+                            "privateIPAddress": "",
+                            "privateIPAllocationMethod": "",
+                            "subnet": {
+                                "id": "[concat(parameters('virtualNetworks_name'), '/subnets')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false
+            }
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+This template deploys a Virutal Machine along with the Virtual Network including Subnets, Network Security Group, and a Network Interface.
+
+location - Specifies the Azure region for the resource. Please enter a location. For e.g. Central US
+networkInterfaceName - Specifies the name of the NIC. Please enter a NIC name based on the adopted naming standards. For e.g. VM1_NIC
+enableAcceleratedNetworking - Specifies if Accelerated Networking should be enabled or not. Choose Yes or No.   
+networkSecurityGroupName - Specifies the name of the NSG. Please enter a NSG name based on the adopted naming standards. For e.g. VM1_NSG
+networkSecurityGroupRules - Specifies the rules of the NSG. Please define inbound and outbound rules.
+subnetName- Specifies the name of the Subnet. For e.g. VM1_subnet
+virtualNetworkName - Specifies the name of the VNet For e.g. VM_VNet
+addressPrefixes- Specifies the IP address range of the VNet. For e.g. 10.0.0.5/24
+subnets- Specifies the name and address prefixes of all subnets associated with the VNet. 
+publicIpAddressName - Specifies the name of the Public IP address. 
+publicIpAddressType - Specifies the name of the Public IP address. Choose Dynamic or Static. 
+publicIpAddressSku - Specifies the SKU of the Public IP address. Choose Basic or Standard. 
+virtualMachineName - Specifies the name of the VM. For e.g. VM1
+virtualMachineRG- Specifies the resource group of the VM. 
+osDiskType - Specifies the OS disk type of the VM. Choose one of the values(Premium/Standard SSD, Standard HDD)
+dataDisks - Specifies disk related attributes like LUN, disk name, create and delete options. 
+dataDiskResources - Specifies disk related attributes like SKU, disk size etc. 
+virtualMachineSize - Specifies the SKU of the VM. 
+adminUsername- Specifies user name of the VM. 
+adminPassword- Specifies password of the VM. 
+

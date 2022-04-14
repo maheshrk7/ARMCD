@@ -1,0 +1,65 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "hub_Network": {
+            "type": "object",
+            "defaultValue": {
+                "name": "hub_vnet",
+                "addressPrefix": "10.0.0.0/19"
+            }
+        },
+        "spoke_Network": {
+            "type": "object",
+            "defaultValue": {
+                "name": "spoke_vnet",
+                "addressPrefix": "10.0.32.0/19",
+                "subnetName": "snet_spoke_resources",
+                "subnetPrefix": "10.0.32.0/19",
+                "subnetNsgName": "nsg-spoke-two-resources"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]"
+        }
+    },
+    "variables": {
+        "peering_name_hub_to_spoke": "hub_to_spoke",
+        "peering_name_spoke_to_spoke": "spoke_to_hub"
+    },
+    "resources": [
+        {
+            "comments": "Virtual network peering hub to spoke",
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2020-05-01",
+            "name": "[concat(parameters('hub_Network').name, '/', variables('peering_name_hub_to_spoke'))]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "allowVirtualNetworkAccess": true,
+                "allowForwardedTraffic": false,
+                "allowGatewayTransit": false,
+                "useRemoteGateways": false,
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('spoke_Network').name)]"
+                }
+            }
+        },
+        {
+            "comments": "Virtual network peering spoke to hub",
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2020-05-01",
+            "name": "[concat(parameters('spoke_Network').name, '/', variables('peering_name_spoke_to_spoke'))]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "allowVirtualNetworkAccess": true,
+                "allowForwardedTraffic": false,
+                "allowGatewayTransit": false,
+                "useRemoteGateways": false,
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('hub_Network').name)]"
+                }
+            }
+        }
+    ]
+}

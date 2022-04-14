@@ -1,0 +1,6 @@
+"name": Specifies the name of Application Insights resource. For e.g. Applicationinsights_deploy
+"type": TSpecifies the type of app you are deploying.  For e.g. web
+"regionId": Specifies which Azure Region to deploy the resource to. 
+tagsArray": Tags for your resources. 
+"requestSource": Source of Azure Resource Manager deployment. 
+"workspaceResourceId": Specifies the log Analytics workspace ID to associate with your Application Insights resource.

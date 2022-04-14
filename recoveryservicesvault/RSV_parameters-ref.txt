@@ -1,0 +1,8 @@
+This template deploys Recovery Services Vault and defines Backup policies and Backup Storage Configuration. 
+
+"vaultName": Recovery Services vault name
+"location": Location of Recovery Services vault
+enableSystemIdentity": Enable system identity for Recovery Services vault
+"sku": Enable system identity for Recovery Services vault
+"storageType": Storage replication type for Recovery Services vault
+"backupPolicies": Array containing backup policies. 

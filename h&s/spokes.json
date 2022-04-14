@@ -1,0 +1,245 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "spokeVnet": {
+        "type": "object",
+        "defaultValue": {            
+            "vNetName": "spoke_vnet",
+            "Prefixes": "10.0.32.0/19",
+            "subnets":[                
+                {
+                "SubnetName": "appname_web_dev_subnet",
+                "Prefixes": "10.0.34.0/23",
+                "NetworkSecurityGroup": "web_dev_nsg",
+				        "UDRName": "appname_dev_centralus_udr01",
+                "NSGRules": 
+                  [
+                    {
+                      "RuleName": "Port_3389_In",
+                      "Description": "RDP",
+                      "Priority": 101,
+                      "SourceAddressPrefix": "10.0.0.0/16",
+                      "DestinationAddressPrefix": "10.0.0.0/16",
+                      "DestinationPortRange": ["3389"],
+                      "Protocol": "TCP",
+                      "Access": "Deny",
+                      "Direction": "Inbound",
+                      "SourcePortRange": "*"
+                    }
+                  ]
+                },
+                {
+                "SubnetName": "appname_app_dev_subnet",
+                "Prefixes": "10.0.36.0/23",
+                "NetworkSecurityGroup": "app_dev_nsg",
+                "UDRName": "appname_dev_centralus_udr01",
+                "NSGRules": 
+                  [
+                    {
+                      "RuleName": "Port_3389_In",
+                      "Description": "RDP",
+                      "Priority": 101,
+                      "SourceAddressPrefix": "10.0.0.0/16",
+                      "DestinationAddressPrefix": "10.0.0.0/16",
+                      "DestinationPortRange": ["3389"],
+                      "Protocol": "TCP",
+                      "Access": "Deny",
+                      "Direction": "Inbound",
+                      "SourcePortRange": "*"
+                    }
+                  ]
+                },
+				{
+                "SubnetName": "appname_db_dev_subnet",
+                "Prefixes": "10.0.38.0/23",
+                "NetworkSecurityGroup": "db_dev_nsg",
+                "UDRName": "appname_dev_centralus_udr01",
+                "NSGRules": 
+                  [
+                    {
+                      "RuleName": "Port_3389_In",
+                      "Description": "RDP",
+                      "Priority": 101,
+                      "SourceAddressPrefix": "10.0.0.0/16",
+                      "DestinationAddressPrefix": "10.0.0.0/16",
+                      "DestinationPortRange": ["3389"],
+                      "Protocol": "TCP",
+                      "Access": "Deny",
+                      "Direction": "Inbound",
+                      "SourcePortRange": "*"
+                    }
+                  ]
+                }
+              ]
+            }        
+      },
+	  "pipNames": {
+      "type": "array",
+      "defaultValue": [
+        "spokebastionpip01"
+      ]
+    },
+	"UdrSpokeVNet": {
+      "type": "array",
+      "defaultValue":[
+           "appname_dev_centralus_udr01"
+      ]
+    }, 
+	"vnetspokeBastion": {
+      "type": "object",
+      "defaultValue": {
+        "bastionHostName": "spokeVnetbastion",
+        "bastionpip": "spokebastionpip01",
+        "SubnetName": "AzureBastionSubnet",
+        "Prefixes": "10.0.32.0/26"
+      }
+    }
+    },
+    "variables": {
+      "subnets" : "[parameters('spokeVnet').subnets]"
+    },
+	"resources": [
+        {
+            "condition": "[not(equals(length(variables('subnets')[copyIndex()].NSGRules),0))]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[variables('subnets')[copyIndex()].NetworkSecurityGroup]",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2019-11-01",
+            "copy": {
+                "name": "SubnetNSGLoop",
+                "count": "[length( variables('subnets') )]"
+            },
+            "properties": {
+                "copy": [
+                    {
+                        "name": "securityRules",
+                        "count": "[length(variables('subnets')[copyIndex()].NSGRules)]",
+                        "input": {
+                            "name": "[variables('subnets')[copyIndex()].NSGRules[copyIndex('securityRules')].RuleName]",
+                            "properties": {
+                                "description": "[variables('subnets')[copyIndex()].NSGRules[copyIndex('securityRules')].Description]",
+                                "protocol": "[variables('subnets')[copyIndex()].NSGRules[copyIndex('securityRules')].Protocol]",
+                                "sourceAddressPrefix": "[variables('subnets')[copyIndex()].NSGRules[copyIndex('securityRules')].SourceAddressPrefix]",
+                                "destinationAddressPrefix": "[variables('subnets')[copyIndex()].NSGRules[copyIndex('securityRules')].DestinationAddressPrefix]",
+                                "access": "[variables('subnets')[copyIndex()].NSGRules[copyIndex('securityRules')].Access]",
+                                "priority": "[variables('subnets')[copyIndex()].NSGRules[copyIndex('securityRules')].Priority]",
+                                "direction": "[variables('subnets')[copyIndex()].NSGRules[copyIndex('securityRules')].Direction]",
+                                "sourcePortRange": "[variables('subnets')[copyIndex()].NSGRules[copyIndex('securityRules')].SourcePortRange]",
+                                "destinationPortRanges": "[variables('subnets')[copyIndex()].NSGRules[copyIndex('securityRules')].DestinationPortRange]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+		{
+		        "type": "Microsoft.Network/routeTables",
+            "apiVersion": "2018-10-01",
+		        "name": "[parameters('UdrSpokeVNet')[copyIndex()]]",
+            "location": "[resourceGroup().location]",
+            "copy": {
+                "name": "UDRcopy",
+                "count": 
+                    "[length(parameters('UdrSpokeVNet'))]"
+                    },
+		        "properties": {
+			          "disableBgpRoutePropagation": false
+		                }
+        },
+		
+		{          
+          "type": "Microsoft.Network/virtualNetworks",
+          "apiVersion": "2019-04-01",
+          "name": "[parameters('spokeVnet').vNetName]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "SubnetNSGLoop",
+            "UDRcopy"
+          ],
+          "properties": {
+            "addressSpace": {
+              "addressPrefixes": [
+                "[parameters('spokeVnet').Prefixes]"
+              ]
+            },
+            "copy": [
+              {
+                "name": "subnets",
+                "count": "[length(parameters('spokeVnet').subnets)]",
+                "input": {                  
+                  "name": "[parameters('spokeVnet').subnets[copyIndex('subnets')].SubnetName]",
+                  "properties": {
+                    "addressPrefix": "[parameters('spokeVnet').subnets[copyIndex('subnets')].Prefixes]",
+                     "networkSecurityGroup": {                      
+                       "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('spokeVnet').subnets[copyIndex('subnets')].NetworkSecurityGroup)]" 
+                     },
+                     "routeTable": {
+                      "id": "[resourceId('Microsoft.Network/routeTables', parameters('spokeVnet').subnets[copyIndex('subnets')].UDRName)]"
+                     }
+                  }
+                }
+              }
+            ]
+          },
+          "resources": [
+            {
+              "apiVersion": "2018-10-01",
+              "type": "subnets",
+              "name": "[parameters('vnetspokeBastion').SubnetName]",
+              "location": "[resourceGroup().location]",
+              "dependsOn": [
+                "[parameters('spokeVnet').vNetName]",
+				"[resourceId('Microsoft.Network/virtualNetworks', parameters('spokeVnet').vNetName)]"
+              ],
+              "properties": {
+                "addressPrefix": "[parameters('vnetspokeBastion').Prefixes]"
+              }
+            }
+          ]
+        },
+		{
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2018-10-01",
+            "name": "[parameters('pipNames')[copyIndex()]]",
+            "location": "[resourceGroup().location]",
+            "copy": {
+              "name": "pipCopy",
+              "count": "[length(parameters('pipNames'))]"
+            },
+            "sku": {
+              "name": "Standard"
+            },
+            "properties": {
+              "publicIPAllocationMethod": "static"
+            }
+        },
+		{
+          "apiVersion": "2019-04-01",
+          "type": "Microsoft.Network/bastionHosts",
+          "name": "[parameters('vnetspokeBastion').bastionHostName]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Network/publicIpAddresses', parameters('vnetspokeBastion').bastionpip)]",
+            "[resourceId('Microsoft.Network/virtualNetworks', parameters('spokeVnet').vNetName)]",
+			"pipCopy"
+            ],
+          "properties": {
+            "ipConfigurations": [
+              {
+                "name": "IpConf01",
+                "properties": {
+                  "subnet": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('spokeVnet').vNetName, parameters('vnetspokeBastion').SubnetName)]"
+                  },
+                  "publicIPAddress": {
+                    "id": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('vnetspokeBastion').bastionpip)]"
+                  }
+                }
+              }
+            ]
+      },
+      "tags": {}
+    }
+      ]
+}

@@ -1,0 +1,7 @@
+This template deploys a Private Endpoint to an already existing VNet and connects to a Private resource(in this case, blob storage). 
+
+"privateEndpointName": Name of the privateEndpoint .For e.g. storage_pe1
+"vnetName": Name of the VNet where the private endpoint should reside. 
+"subnetName": Name of the subnet where the private endpoint should reside. 
+"privateLinkResource": The name of the resource that this private endpoint should connect to. For e.g. If its blobstorage, teststorage1
+"groupId": The ID of a group obtained from the remote resource that this private endpoint should connect to. For e.g. For blob storage- blob, for sql server, sqlServer etc. 

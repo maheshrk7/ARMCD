@@ -1,0 +1,16 @@
+This template deploys Load Balancer including dependent resources like VMs, VNets, Subnets, NICs and storage account for logs. 
+
+"adminUsername": Admin username
+"adminPassword" : Admin password
+"vmNamePrefix": Prefix to use for VM names
+"location": Location for all resources.
+"vmSize": Size of the virtual machines
+"storageAccountType" : Specifies the storageAccountType for the diagnostics. 
+"storageAccountName": Specifies the storageAccountName for the diagnostics. 
+"virtualNetworkName": Specifies the VNet name. 
+"subnetName": Specifies the Subnet name. 
+"loadBalancerName": Specifies the LB name. 
+"networkInterfaceName": Specifies the NIC name. 
+"numberOfInstances": Specifies the Number of NICs to provision. 
+"virtualNetworkAddressprefix": Specifies the VNet IP address prefix. 
+"subnetAddressprefix": Specifies the Subnet IP address prefix. 

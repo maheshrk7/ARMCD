@@ -1,0 +1,160 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "loadBalancers_name": {
+            "defaultValue": "",
+            "type": "String"
+        },
+        "virtualNetworks__vnet01": {
+            "defaultValue": "",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/loadBalancers",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('loadBalancers_name')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_name'), '')]"
+            ],
+            "tags": {
+                "Application": "",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "[parameters('virtualMachines_name')]",
+                "ManagedBy": "",
+                "POC": "",
+                "ServiceClassification": "Private"
+            },
+            "sku": {
+                "name": "[parameters('sku_name')]",
+                "tier": "[parameters('sku_access_tier')]"
+            },
+            "properties": {
+                "frontendIPConfigurations": [
+                    {
+                        "name": "",
+                        "properties": {
+                            "privateIPAddress": "",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[concat(parameters('virtualNetworks_vnet01), '/subnets/')]"
+                            },
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "",
+                        "properties": {
+                            "loadBalancerBackendAddresses": [
+                                {
+                                    "name": "",
+                                    "properties": {}
+                                },
+                                {
+                                    "name": "",
+                                    "properties": {}
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "loadBalancingRules": [
+                    {
+                        "name": "SQLAlwaysOnEndPointListener",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_name')), '/frontendIPConfigurations/')]"
+                            },
+                            "frontendPort":"[parameters('port_number')]",
+                            "backendPort": "[parameters('port_number')]",
+                            "enableFloatingIP": true,
+                            "idleTimeoutInMinutes": "[parameters('timeout_in_minutes')]",
+                            "protocol": "[parameters('protocol_name')]",
+                            "enableTcpReset": false,
+                            "loadDistribution": "Default",
+                            "disableOutboundSnat": true,
+                            "backendAddressPool": {
+                                "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_name'), '')]"
+                            },
+                            "probe": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_name')), '/probes/SQLAlwaysOnEndPointProbe')]"
+                            }
+                        }
+                    },
+                    {
+                        "name": "WSFCEndPoint",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_name')), '/frontendIPConfigurations/')]"
+                            },
+                            "frontendPort": "[parameters('port_number')]",
+                            "backendPort": "[parameters('port_number')]",
+                            "enableFloatingIP": true,
+                            "idleTimeoutInMinutes": "[parameters('timeout_in_minutes')]",
+                            "protocol": "[parameters('protocol_name')]",
+                            "enableTcpReset": false,
+                            "loadDistribution": "Default",
+                            "disableOutboundSnat": true,
+                            "backendAddressPool": {
+                                "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_name'), '')]"
+                            },
+                            "probe": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_name')), '/probes/WSFCEndPointProbe')]"
+                            }
+                        }
+                    }
+                ],
+                "probes": [
+                    {
+                        "name": "SQLAlwaysOnEndPointProbe",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "port": "[parameters('port_number')]",
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
+                        }
+                    },
+                    {
+                        "name": "WSFCEndPointProbe",
+                        "properties": {
+                            "protocol": "[parameters('protocol_name')]",
+                            "port": "[parameters('port_number')]",
+                            "intervalInSeconds": "[parameters('interval_in_seconds')]",
+                            "numberOfProbes": "[parameters('numnber_of_probes')]"
+                        }
+                    }
+                ],
+                "inboundNatRules": [],
+                "outboundRules": [],
+                "inboundNatPools": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('loadBalancers_us_ssis_appdb_centralus_internal_lb01_name'), '/')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_name'))]"
+            ],
+            "properties": {
+                "loadBalancerBackendAddresses": [
+                    {
+                        "name": "",
+                        "properties": {}
+                    },
+                    {
+                        "name": "",
+                        "properties": {}
+                    }
+                ]
+            }
+        }
+    ]
+}

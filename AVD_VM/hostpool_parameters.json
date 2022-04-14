@@ -1,0 +1,192 @@
+{
+    "comments": "Domain join details to be provided before deploying. Use key vault to secure hostpool registration token and admin passwords wherever necessary",
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "artifactsLocation": {
+            "value": "https://wvdportalstorageblob.blob.core.windows.net/galleryartifacts/Configuration_03-30-2022.zip"
+        },
+        "nestedTemplatesLocation": {
+            "value": "https://wvdportalstorageblob.blob.core.windows.net/galleryartifacts/armtemplates/Hostpool_3-9-2022/nestedTemplates/"
+        },
+        "tokenExpirationTime": {
+            "value": ""
+        },
+        "vmTemplate": {
+            "value": "{\"domain\":\"<domain name>\",\"galleryImageOffer\":\"Windows-10\",\"galleryImagePublisher\":\"microsoftwindowsdesktop\",\"galleryImageSKU\":\"20h2-ent-g2\",\"imageType\":\"Gallery\",\"imageUri\":null,\"customImageId\":null,\"namePrefix\":\"adgyth\",\"osDiskType\":\"StandardSSD_LRS\",\"vmSize\":{\"id\":\"Standard_D2s_v3\",\"cores\":2,\"ram\":8},\"galleryItemId\":\"microsoftwindowsdesktop.windows-1020h2-ent-g2\",\"hibernate\":false,\"diskSizeGB\":0}"
+        },
+        "intune": {
+            "value": false
+        },
+        "hostpoolName": {
+            "value": "testtt"
+        },
+        "hostpoolDescription": {
+            "value": "Created through the Azure Virtual Desktop extension"
+        },
+        "location": {
+            "value": "centralus"
+        },
+        "validationEnvironment": {
+            "value": false
+        },
+        "hostpoolType": {
+            "value": "Personal"
+        },
+        "loadBalancerType": {
+            "value": "Persistent"
+        },
+        "vmResourceGroup": {
+            "value": "cloud-shell-storage-southcentralus"
+        },
+        "vmNamePrefix": {
+            "value": "testingvm"
+        },
+        "vmLocation": {
+            "value": "centralus"
+        },
+        "availabilityOption": {
+            "value": "None"
+        },
+        "availabilitySetName": {
+            "value": ""
+        },
+        "createAvailabilitySet": {
+            "value": false
+        },
+        "availabilitySetUpdateDomainCount": {
+            "value": 5
+        },
+        "availabilitySetFaultDomainCount": {
+            "value": 2
+        },
+        "availabilityZone": {
+            "value": 1
+        },
+        "vmImageType": {
+            "value": "Gallery"
+        },
+        "vmSize": {
+            "value": "Standard_D2s_v3"
+        },
+        "vmNumberOfInstances": {
+            "value": 2
+        },
+        "vmDiskType": {
+            "value": "StandardSSD_LRS"
+        },
+        "vmDiskSizeGB": {
+            "value": 0
+        },
+        "vmHibernate": {
+            "value": false
+        },
+        "bootDiagnostics": {
+            "value": {
+                "enabled": true
+            }
+        },
+        "securityType": {
+            "value": "Standard"
+        },
+        "secureBoot": {
+            "value": false
+        },
+        "vTPM": {
+            "value": false
+        },
+        "virtualNetworkResourceGroupName": {
+            "value": "btb-vdi-nonprod-network-rg-centralus"
+        },
+        "existingVnetName": {
+            "value": "vdi-dev-centralus-vnet"
+        },
+        "existingSubnetName": {
+            "value": "it-vdi-dev-centralus-vnet-snet01"
+        },
+        "createNetworkSecurityGroup": {
+            "value": false
+        },
+        "aadJoin": {
+            "value": false
+        },
+        "administratorAccountUsername": {
+            "value": "Add domain admin Username"
+        },
+        "administratorAccountPassword": {
+            "value": "Add domain admin password"
+        },
+        "domain": {
+            "value": "Add domain name"
+        },
+        "ouPath": {
+            "value": "<Add OU path>"
+        },
+        "vmAdministratorAccountUsername": {
+            "value": "<username>"
+        },
+        "vmAdministratorAccountPassword": {
+            "value": null
+        },
+        "addToWorkspace": {
+            "value": true
+        },
+        "applicationGroupTags": {
+            "value": {}
+        },
+        "availabilitySetTags": {
+            "value": {}
+        },
+        "hostpoolTags": {
+            "value": {}
+        },
+        "imageTags": {
+            "value": {}
+        },
+        "networkInterfaceTags": {
+            "value": {}
+        },
+        "networkSecurityGroupTags": {
+            "value": {}
+        },
+        "virtualMachineTags": {
+            "value": {}
+        },
+        "apiVersion": {
+            "value": "2021-09-03-preview"
+        },
+        "deploymentId": {
+            "value": "764d47c5-cd7e-4dbc-bfbf-71e516c420e2"
+        },
+        "vmGalleryImageOffer": {
+            "value": "Windows-10"
+        },
+        "vmGalleryImagePublisher": {
+            "value": "microsoftwindowsdesktop"
+        },
+        "vmGalleryImageSKU": {
+            "value": "20h2-ent-g2"
+        },
+        "vmGalleryImageHasPlan": {
+            "value": false
+        },
+        "workspaceResourceGroup": {
+            "value": "btb-vdi-data-analytics-nonprod-rg-centralus"
+        },
+        "workspaceName": {
+            "value": "data_dev_workspace"
+        },
+        "workspaceLocation": {
+            "value": "centralus"
+        },
+        "allApplicationGroupReferences": {
+            "value": "/subscriptions/a02e59ea-6c68-4bd0-8637-6665c73472b4/resourcegroups/btb-vdi-data-analytics-nonprod-rg-centralus/providers/Microsoft.DesktopVirtualization/applicationgroups/btb-data-dev-centralus-vdi-DAG"
+        },
+        "isNewWorkspace": {
+            "value": false
+        },
+        "personalDesktopAssignmentType": {
+            "value": "Direct"
+        }
+    }
+}

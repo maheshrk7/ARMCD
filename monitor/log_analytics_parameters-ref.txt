@@ -1,0 +1,8 @@
+This template deploys a Log Analytics Workspace along with its properties.
+
+"workspaceName": Specifies the name of the workspace
+"sku": Specifies the pricing tier. The values can be  PerGB2018 or legacy tiers (Free, Standalone, PerNode, Standard or Premium)
+"location": Specifies the location for the workspace.
+"retentionInDays": Number of days to retain data.
+"resourcePermissions": Set to True to use resource or workspace permissions. Set to False to require workspace permissions.
+"heartbeatTableRetention": Number of days to retain data in Heartbeat table. 

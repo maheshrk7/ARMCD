@@ -1,0 +1,446 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetHub": {
+      "type": "object",
+      "defaultValue": {
+        "vNetName": "hub_vnet",
+        "Prefixes": "10.0.0.0/19",
+        "RGName": "testARM",        
+        "subnets": [
+          {
+            "SubnetName": "corpad_coreservices_centralus_snet",
+            "Prefixes": "10.0.1.0/24",
+            "NetworkSecurityGroup": "corpad_coreservices_nsg",
+            "UDRName": "corpad_udr",
+            "NSGRules": [
+              {
+                "RuleName": "Bastion_Connection",
+                "Description": "-",
+                "Priority": 100,
+                "SourceAddressPrefix": "10.0.0.0/16",
+                "DestinationAddressPrefix": "10.0.0.0/16",
+                "DestinationPortRange": ["22","3389"],
+                "Protocol": "TCP",
+                "Access": "Allow",
+                "Direction": "Inbound",
+                "SourcePortRange": "*"
+              },
+			    {
+			          "RuleName": "ICMP",
+                "Description": "-",
+                "Priority": 101,
+                "SourceAddressPrefix": "*",
+                "DestinationAddressPrefix": "*",
+                "DestinationPortRange": ["1-65535"],
+                "Protocol": "ICMP",
+                "Access": "Allow",
+                "Direction": "Inbound",
+                "SourcePortRange": "*"
+				      }
+            ]
+          },
+          {
+            "SubnetName": "dmzad_coreservices_centralus_snet",
+            "Prefixes": "10.0.2.0/23",
+            "NetworkSecurityGroup": "dmzad_coreservices_nsg",
+            "UDRName": "dmzad_udr",
+            "NSGRules": [
+              {
+                "RuleName": "ICMP",
+                "Description": "-",
+                "Priority": 102,
+                "SourceAddressPrefix": "*",
+                "DestinationAddressPrefix": "*",
+                "DestinationPortRange": ["1-65535"],
+                "Protocol": "ICMP",
+                "Access": "Allow",
+                "Direction": "Inbound",
+                "SourcePortRange": "*"
+              }
+            ]
+          },
+          {
+            "SubnetName": "aadconnect_coreservices_centralus_snet",
+            "Prefixes": "10.0.4.0/23",
+            "NetworkSecurityGroup": "aadconnect_coreservices_nsg",
+			      "UDRName": "aad_udr",
+            "NSGRules": [
+              {
+                "RuleName": "ICMP",
+                "Description": "-",
+                "Priority": 101,
+                "SourceAddressPrefix": "*",
+                "DestinationAddressPrefix": "*",
+                "DestinationPortRange": ["1-65535"],
+                "Protocol": "ICMP",
+                "Access": "Allow",
+                "Direction": "Inbound",
+                "SourcePortRange": "*"
+              }
+            ]
+          },
+          {
+            "SubnetName": "mgmt_coreservices_centralus_snet",
+            "Prefixes": "10.0.0.128/26",
+            "NetworkSecurityGroup": "mgmt_coreservices_nsg",
+			"UDRName": "mgmnt_udr",
+            "NSGRules": [
+               {
+                "RuleName": "ICMP",
+                "Description": "-",
+                "Priority": 101,
+                "SourceAddressPrefix": "*",
+                "DestinationAddressPrefix": "*",
+                "DestinationPortRange": ["1-65535"],
+                "Protocol": "ICMP",
+                "Access": "Allow",
+                "Direction": "Inbound",
+                "SourcePortRange": "*"
+              }
+            ]
+          }
+        ]
+      }
+    },
+	"VnetHubGatewaySubnet": {
+            "type": "object",
+            "defaultValue": {
+                "name": "vgw-gateway",
+                "subnetName": "GatewaySubnet",
+                "subnetPrefix": "10.0.0.0/26",
+                "pipName": "pip-vgw-gateway"
+            }
+        },
+	"vnetHubFirewallSubnet": {
+      "type": "object",
+      "defaultValue": {
+       "SubnetName": "AzureFirewallSubnet",
+        "Prefixes": "10.0.6.0/24"
+      }
+    },
+	
+	"vnetHubAzureBastionSubnet": {
+		  "type": "object",
+		  "defaultValue": {
+		   "SubnetName": "AzureBastionSubnet",
+		   "Prefixes": "10.0.0.64/27"
+		  }
+    },
+	
+	"UdrHubVnet": {
+      "type": "array",
+      "defaultValue":[
+            "corpad_Udr",
+            "dmzad_udr",
+            "mgmnt_udr",
+            "aad_udr"
+      ]
+    },
+	"vnetHubBastion": {
+      "type": "object",
+      "defaultValue": {
+        "bastionHostName": "hubbastion",
+        "bastionpip": "hubbastionpip01"
+      }
+    },
+	"pipNames": {
+      "type": "array",
+      "defaultValue": [
+        "hubbastionpip01",
+        "hubvgwpip01",
+        "hubfirewallpip01"
+      ]
+    },
+	"vnetHubFirewall": {
+      "type": "object",
+      "defaultValue": {
+        "fwName": "hubfirewall01",
+        "fwlpip": "hubfirewallpip01"
+      }
+    },
+	"vnetHubvirtualNetworkGateways": {
+      "type": "object",
+      "defaultValue": {
+        "vgwName": "hubERgw01",
+        "vgwpip": "hubvgwpip01",
+        "gwType": "ExpressRoute",
+        "gwsku": "HighPerformance"
+      }
+    },
+	"vnetHubExpressRouteCircuit": {
+      "type": "object",
+      "defaultValue": {
+        "ERName" :"hubER01",
+        "Peeringlocation" : "Chicago",
+        "bandwidthInMbps" : "50",
+        "serviceProviderName" : "Equinix",
+        "sku_tier" :"Standard",
+        "Sku_family" :"MeteredData"
+      }
+    }
+  },
+  
+  "variables": {
+    "subnets": "[parameters('vnetHub').subnets]"
+  },
+  "resources": [
+    {
+      "condition": "[not(equals(length(variables('subnets')[copyIndex(0)].NSGRules),0))]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "name": "[variables('subnets')[copyIndex(0)].NetworkSecurityGroup]",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2019-11-01",
+      "copy": {
+		"name": "SubnetNSG",
+		"count": "[length( variables('subnets') )]",
+		"mode": "serial",
+		"batchSize": 1
+      },
+      "properties": {
+        "copy": [
+          {
+            "name": "securityRules",
+            "count": "[length(variables('subnets')[copyIndex(0)].NSGRules)]",
+            "input": {
+              "name": "[variables('subnets')[copyIndex(0)].NSGRules[copyIndex('securityRules')].RuleName]",
+              "properties": {
+                "description": "[variables('subnets')[copyIndex(0)].NSGRules[copyIndex('securityRules')].Description]",
+                "protocol": "[variables('subnets')[copyIndex(0)].NSGRules[copyIndex('securityRules')].Protocol]",
+                "sourceAddressPrefix": "[variables('subnets')[copyIndex(0)].NSGRules[copyIndex('securityRules')].SourceAddressPrefix]",
+                "destinationAddressPrefix": "[variables('subnets')[copyIndex(0)].NSGRules[copyIndex('securityRules')].DestinationAddressPrefix]",
+                "access": "[variables('subnets')[copyIndex(0)].NSGRules[copyIndex('securityRules')].Access]",
+                "priority": "[variables('subnets')[copyIndex(0)].NSGRules[copyIndex('securityRules')].Priority]",
+                "direction": "[variables('subnets')[copyIndex(0)].NSGRules[copyIndex('securityRules')].Direction]",
+                "sourcePortRange": "[variables('subnets')[copyIndex(0)].NSGRules[copyIndex('securityRules')].SourcePortRange]",
+                "destinationPortRanges": "[variables('subnets')[copyIndex(0)].NSGRules[copyIndex('securityRules')].DestinationPortRange]"
+              }
+            }
+          }
+        ]
+      }
+    },
+	{
+		        "type": "Microsoft.Network/routeTables",
+            "apiVersion": "2018-10-01",
+		        "name": "[parameters('UdrHubVnet')[copyIndex(0)]]",
+            "location": "[resourceGroup().location]",
+            "copy": {
+                "name": "UDRcreate",
+				        "mode": "serial",
+						    "batchSize": 1,
+                "count": 
+                    "[length(parameters('UdrHubVnet'))]"
+                    },
+		        "properties": {
+			          "disableBgpRoutePropagation": false
+					}
+	},
+		{
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2019-04-01",
+      "name": "[parameters('vnetHub').vNetName]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "SubnetNSG",
+        "UDRcreate"
+      ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetHub').Prefixes]"
+          ]
+        },
+        "copy": [
+          {
+            "name": "subnets",
+            "count": "[length(parameters('vnetHub').subnets)]",
+            "input": {
+              "name": "[parameters('vnetHub').subnets[copyIndex('subnets')].SubnetName]",
+              "properties": {
+                "addressPrefix": "[parameters('vnetHub').subnets[copyIndex('subnets')].Prefixes]",
+                "networkSecurityGroup": {                  
+                  "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('vnetHub').subnets[copyIndex('subnets')].NetworkSecurityGroup)]"
+                },
+                "routeTable": {
+                  "id": "[resourceId('Microsoft.Network/routeTables', parameters('vnetHub').subnets[copyIndex('subnets')].UDRName)]"
+                }
+              }
+            }
+          }
+        ]
+      },
+	  "resources": [
+        {
+          "apiVersion": "2019-04-01",
+          "type": "subnets",
+          "name": "[parameters('VnetHubGatewaySubnet').SubnetName]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[parameters('vnetHub').vNetName]",
+			"[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetHub').vNetName)]"
+          ],
+          "properties": {
+            "addressPrefix": "[parameters('VnetHubGatewaySubnet').subnetPrefix]"
+          }
+        },
+		{
+          "apiVersion": "2019-04-01",
+          "type": "subnets",
+          "name": "[parameters('vnetHubFirewallSubnet').SubnetName]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[parameters('vnetHub').vNetName]",
+			"[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetHub').vNetName)]",
+			"[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetHub').vNetName, parameters('VnetHubGatewaySubnet').SubnetName)]"
+          ],
+          "properties": {
+            "addressPrefix": "[parameters('vnetHubFirewallSubnet').Prefixes]"
+          }
+        },
+        {
+          "apiVersion": "2019-04-01",
+          "type": "subnets",
+          "name": "[parameters('vnetHubAzureBastionSubnet').SubnetName]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[parameters('vnetHub').vNetName]",
+			"[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetHub').vNetName)]",
+			"[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetHub').vNetName, parameters('VnetHubGatewaySubnet').SubnetName)]",
+			"[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetHub').vNetName, parameters('vnetHubFirewallSubnet').SubnetName)]"
+          ],
+          "properties": {
+            "addressPrefix": "[parameters('vnetHubAzureBastionSubnet').Prefixes]"
+          }
+        }
+       ]
+    },
+	  {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2018-10-01",
+      "name": "[parameters('pipNames')[copyIndex()]]",
+      "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "pipCopy",
+        "count": "[length(parameters('pipNames'))]",
+        "mode": "serial",
+        "batchSize": 1
+      },
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "static"
+      }
+    },
+	{
+      "apiVersion": "2019-04-01",
+      "type": "Microsoft.Network/bastionHosts",
+      "name": "[parameters('vnetHubBastion').bastionHostName]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIpAddresses', parameters('vnetHubBastion').bastionpip)]",
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetHub').vNetName, parameters('vnetHubAzureBastionSubnet').SubnetName)]",
+		    "pipCopy"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "IpConf01",
+            "properties": {
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetHub').vNetName, parameters('vnetHubAzureBastionSubnet').SubnetName)]"
+              },
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('vnetHubBastion').bastionpip)]"
+              }
+            }
+          }
+        ]
+      },
+      "tags": {}
+    },
+	{
+      "type": "Microsoft.Network/azureFirewalls",
+      "apiVersion": "2019-11-01",
+      "name": "[parameters('vnetHubFirewall').fwName]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetHub').vNetName , parameters('vnetHubFirewallSubnet').SubnetName)]",
+        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('vnetHubFirewall').fwlpip)]",
+		"pipCopy"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig",
+            "properties": {
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetHub').vNetName, parameters('vnetHubFirewallSubnet').SubnetName)]"
+              },
+              "publicIPAddress": {
+                "id": "[resourceID('Microsoft.Network/publicIPAddresses', parameters('vnetHubFirewall').fwlpip)]"
+              }
+            }
+          }
+        ],
+        "networkRuleCollections": [],
+        "applicationRuleCollections": [],
+        "natRuleCollections": []
+      }
+    },
+	{
+      "apiVersion": "2019-04-01",
+      "name": "[parameters('vnetHubvirtualNetworkGateways').vgwName]",
+      "type": "Microsoft.Network/virtualNetworkGateways",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetHub').vNetName, parameters('VnetHubGatewaySubnet').SubnetName)]",
+        "[resourceId('Microsoft.Network/publicIPAddresses', parameters('vnetHubvirtualNetworkGateways').vgwpip )]",
+		"pipCopy"
+      ],
+      "tags": {},
+      "properties": {
+        "gatewayType": "[parameters('vnetHubvirtualNetworkGateways').gwType]",
+        "ipConfigurations": [
+          {
+            "name": "default",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetHub').vNetName, parameters('VnetHubGatewaySubnet').SubnetName)]"
+              },
+              "publicIpAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('vnetHubvirtualNetworkGateways').vgwpip )]"
+              }
+            }
+          }
+        ],
+        "sku": {
+          "name": "[parameters('vnetHubvirtualNetworkGateways').gwsku]",
+          "tier": "[parameters('vnetHubvirtualNetworkGateways').gwsku]"
+        }
+      }
+    },
+    {
+		    "apiVersion": "2015-06-15",
+		    "type": "Microsoft.Network/expressRouteCircuits",
+		    "name": "[parameters('vnetHubExpressRouteCircuit').ERName]",
+		    "location": "[resourceGroup().location]",
+		    "sku": {
+		        "name": "[concat(parameters('vnetHubExpressRouteCircuit').sku_tier,'_', parameters('vnetHubExpressRouteCircuit').Sku_family)]",
+		        "tier": "[parameters('vnetHubExpressRouteCircuit').sku_tier]",
+		        "family": "[parameters('vnetHubExpressRouteCircuit').Sku_family]"
+		    },
+		    "properties": {
+		        "serviceProviderProperties": {
+		            "serviceProviderName": "[parameters('vnetHubExpressRouteCircuit').serviceProviderName]",
+		            "peeringLocation": "[parameters('vnetHubExpressRouteCircuit').Peeringlocation]",
+		            "bandwidthInMbps": "[parameters('vnetHubExpressRouteCircuit').bandwidthInMbps]"
+		        },
+		        "allowClassicOperations": "false"
+		    }
+		}
+ ]
+}

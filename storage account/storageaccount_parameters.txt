@@ -1,0 +1,20 @@
+This template deploys a Storage account along with the Access type and container level properties.
+
+"location": Specifies the Azure region for the resource. Please enter a location. For e.g. Central US
+"storageAccountName": Specifies the name of the resource. For e.g. storageaccount1
+"accountType": Specifies the type of storage account. For e.g. Premium_LRS or Premium_ZRS
+"kind": Specifies the kind of storage account. For e.g. BlobStorage
+"minimumTlsVersion": Specifies the TLS version. For e.g. TLS1_2
+"supportsHttpsTrafficOnly": Specifies if the storage account will allow traffic from only HTTPs or HTTP too.  
+"allowBlobPublicAccess": Specifies the option to enable or disbale container ACLs for anonymous access to the blobs inside the storage account. Set to True or False. 
+"allowSharedKeyAccess": Specifies the option to enable or disbale storage account key access. When its disabled, any requests to the account that are authorized with Shared Key, including shared access signatures (SAS), will be denied. Set to True or False. 
+"networkAclsBypass": Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging,Metrics,AzureServices (For e.g., "Logging, Metrics"), or None to bypass none of those traffics.
+"networkAclsDefaultAction": Set to Allow or Deny based on choice. 
+"keySource": Specifies the encryption keySource. For e.g. Microsoft.Storage
+"encryptionEnabled": Set to True or False. 
+"infrastructureEncryptionEnabled": Specifies enabling or disabling infrastructure encryption which adds a second layer of encryption to your storage account’s data. Set to True or False. 
+"isBlobSoftDeleteEnabled": Set to True or False. Soft delete enables you to recover blobs that were previously marked for deletion, including blobs that were overwritten. 
+"blobSoftDeleteRetentionDays": Specifies the number of days that a blob marked for deletion persists until it's permanently deleted.
+"isContainerSoftDeleteEnabled": Set to True or False. Soft delete enables you to recover containers that were previously marked for deletion, including blobs that were overwritten. 
+"containerSoftDeleteRetentionDays": Set to True or False. Soft delete enables you to recover containers that were previously marked for deletion, including blobs that were overwritten. 
+"isVersioningEnabled": Set to True or False. Use versioning to automatically maintain previous versions of your blobs for recovery and restoration. 

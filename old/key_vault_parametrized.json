@@ -1,0 +1,79 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vaults_sp_nonprod_kv_centralus_name": {
+            "defaultValue": "",
+            "type": "String",
+            "metadata": {
+                "description": "Name of the Key Vault."
+              }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2021-11-01-preview",
+            "name": "[parameters('vaults_name')]",
+            "location": "[parameters('location')]",
+            "tags":  "[parameters('resourceTags')]",
+            "properties": {
+                "sku": {
+                    "family": "A",
+                    "name": "[parameters('sku_name')]"
+                },
+                "tenantId": "",
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "defaultAction": "",
+                    "ipRules": [],
+                    "virtualNetworkRules": []
+                },
+                "accessPolicies": [],
+                "enabledForDeployment": false,
+                "enabledForDiskEncryption": false,
+                "enabledForTemplateDeployment": false,
+                "enableSoftDelete": true,
+                "softDeleteRetentionInDays": "[parameters('number_of_softDelete_data_retention_days')]",
+                "enableRbacAuthorization": true,
+                "vaultUri": "[concat('https://', parameters('vaults_name'), '.vault.azure.net/')]",
+                "provisioningState": "Succeeded",
+                "publicNetworkAccess": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults/keys",
+            "apiVersion": "2021-11-01-preview",
+            "name": "[concat(parameters('vaults_name'), '/default')]",
+            "location":"[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_name'))]"
+            ],
+            "properties": {
+                "attributes": {
+                    "enabled": true,
+                    "nbf": 1637597747,
+                    "exp": 1732292747
+                }
+            }
+        },
+        {
+            "type": "Microsoft.KeyVault/vaults/secrets",
+            "apiVersion": "2021-11-01-preview",
+            "name": "[concat(parameters('vaults_name'), '/default')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.KeyVault/vaults', parameters('vaults_name'))]"
+            ],
+            "properties": {
+                "contentType": "application/",
+                "attributes": {
+                    "enabled": true,
+                    "nbf": 1637597747,
+                    "exp": 1732292747
+                }
+            }
+        }
+    ]
+}
