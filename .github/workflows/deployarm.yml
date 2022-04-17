@@ -15,5 +15,5 @@ jobs:
       with:
         subscriptionId: e3b99daf-a8ca-4cfd-b706-3eecdcb8a894
         resourceGroupName: testARM
-        template: .parameterized/storage account/storageaccount_parameterized.json
-        parameters: .parameterized/storage account/parameters.json
+        template: .parameterized/storage_account/storageaccount_parameterized.json
+        parameters: .parameterized/storage_account/parameters.json
