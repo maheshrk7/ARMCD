@@ -1,22 +1,19 @@
 on: [push]
-name: armtesting
+name: ARM_testing
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@main
+    - uses: actions/checkout@master
     
     - uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.armsecret }}
 
-    - name: Run ARM deploy
+    - name: ARM deploy
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: e3b99daf-a8ca-4cfd-b706-3eecdcb8a894
         resourceGroupName: testARM
-        template: ./azuredeploy.json
-        parameters: storageAccountType=Standard_LRS
-
-      # output containerName variable from template
-    - run: echo ${{ steps.deploy.outputs.containerName }}
+        template: .parameterized/storage account/storageaccount_parameterized.json
+        parameters: .parameterized/storage account/parameters.json
