@@ -33,4 +33,4 @@ jobs:
           subscriptionId: e3b99daf-a8ca-4cfd-b706-3eecdcb8a894
           resourceGroupName: testARM
           template: ./AVD_VM/vm_parameterized_mahesh.json
-          parameters: ./AVD_VM/parameters.json adminPassword: ${{ secrets.adminPassword }}
+          parameters: ./AVD_VM/parameters.json adminPassword=${{ secrets.adminPassword }}
