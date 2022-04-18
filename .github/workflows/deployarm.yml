@@ -17,3 +17,20 @@ jobs:
         resourceGroupName: testARM
         template: ./storage_account/storageaccount_parameterized.json
         parameters: ./storage_account/parameters.json
+
+  build-and-deploy2:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@master
+      
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.armsecret }}
+
+      - name: ARM deploy2
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: e3b99daf-a8ca-4cfd-b706-3eecdcb8a894
+          resourceGroupName: testARM
+          template: ./AVD_VM/vm_parameterized_mahesh.json
+          
