@@ -19,6 +19,7 @@ jobs:
         parameters: ./storage_account/parameters.json
 
   build-and-deploy2:
+      needs: build-and-deploy
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@master

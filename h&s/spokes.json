@@ -1,4 +1,5 @@
 {
+	"comments": "The spoke deploys the following -> 1-Spoke VNet & Subnets 2-Azure Bastion 3-Public IP Addresses. Based on the number of subnets needed, any number of subnets can be added to the parameter 'vnetHub' and NSG rules along with them. Any number of public IP addresses can be added to the parameter 'pipNames' and resources will be created accordingly. Similarly, any number of route tables can be created and attached to any subnet using the parameter 'UdrHubVnet'. Same code can be used for different workloads based on environment like Dev or QA or Production. Just change the name of the objects and the resources to match your needs."
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
