@@ -1,21 +1,42 @@
 on: [push]
 name: ARM_testing
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
+  # build-and-deploy:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@master
     
-    - uses: azure/login@v1
-      with:
-        creds: ${{ secrets.armsecret }}
+  #   - uses: azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.armsecret }}
 
-    - name: ARM deploy
-      uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: e3b99daf-a8ca-4cfd-b706-3eecdcb8a894
-        resourceGroupName: testARM
-        template: ./storage_account/storageaccount_parameterized.json
-        parameters: ./storage_account/parameters.json
+  #   - name: ARM deploy
+  #     uses: azure/arm-deploy@v1
+  #     with:
+  #       subscriptionId: e3b99daf-a8ca-4cfd-b706-3eecdcb8a894
+  #       resourceGroupName: testARM
+  #       template: ./storage_account/storageaccount_parameterized.json
+  #       parameters: ./storage_account/parameters.json
 
-  
+    build:
+      runs-on: ubuntu-latest
+      name: Test changed-files
+      steps:
+        - uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+
+        - name: Get changed files
+          id: changed-files
+          uses: tj-actions/changed-files@v18.7
+          with:
+            files: |
+              *.json
+            files_ignore: |
+              *.yml
+
+        - name: List all changed files
+          run: |
+            for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+              echo "$file was changed"
+            done
