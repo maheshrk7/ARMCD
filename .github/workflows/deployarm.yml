@@ -22,7 +22,7 @@ jobs:
       runs-on: ubuntu-latest
       name: Test changed-files
       steps:
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@master
           with:
             fetch-depth: 0
 
