@@ -6,7 +6,7 @@
             "value": "centralus"
         },
         "networkInterfaceName": {
-            "value": "testvm_nic3"
+            "value": "testvm_nic4"
         },
         "enableAcceleratedNetworking": {
             "value": true

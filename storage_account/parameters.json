@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": 
     {   "location": {"value": "centralus"},
-        "storageAccountName": {"value": "test1storaccgittadfction"},
+        "storageAccountName": {"value": "test1sasdghhttadfction"},
         "accountType": {"value":"Premium_LRS"},
         "kind": {"value": "BlockBlobStorage"},
         "minimumTlsVersion": {"value": "TLS1_2"},
