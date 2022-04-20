@@ -31,9 +31,9 @@ jobs:
           uses: tj-actions/changed-files@v18.7
           with:
             files: |
-             **/.json
+             **/*.json
             files_ignore: |
-              **/.yml
+              **/*.yml
 
         - name: List all changed files
           run: |

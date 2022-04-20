@@ -12,7 +12,7 @@
             "value": true
         },
         "networkSecurityGroupName": {
-            "value": "testvm_nsg1"
+            "value": "testvm_nsg12"
         },
         "networkSecurityGroupRules": {
             "value": [
