@@ -32,6 +32,8 @@ jobs:
           with:
             files: |
               *.json
+            files_ignore: |
+              *.yml
 
         - name: List all changed files
           run: |
