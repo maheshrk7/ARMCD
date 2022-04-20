@@ -55,7 +55,7 @@
             ]
         },
         "virtualMachineName": {
-            "value": "testvm21"
+            "value": "testvm31"
         },
         "osDiskType": {
             "value": "Premium_LRS"
