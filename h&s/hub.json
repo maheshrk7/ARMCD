@@ -1,6 +1,4 @@
 {
-
- "comments": "The hub deploys the following -> 1-Hub VNet & Subnets 2-VNet Gateway 3-NSGs 4-Azure Firewall 5-Azure Bastion 6-Recovery Services Vault 7-Public IP Addresses 8-Express Route Circuit. Based on the number of subnets needed, any number of subnets can be added to the parameter 'vnetHub' and NSG rules along with them. Any number of public IP addresses can be added to the parameter 'pipNames' and resources will be created accordingly. Similarly, any number of route tables can be created and attached to any subnet using the parameter 'UdrHubVnet'",
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
