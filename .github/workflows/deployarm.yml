@@ -15,8 +15,8 @@ jobs:
         with:
           subscriptionId: e3b99daf-a8ca-4cfd-b706-3eecdcb8a894
           resourceGroupName: testARM
-          template: ./h&s/spokes.json
-          # parameters: ./h&s/spokes.json
+          template: ./h&s/vnet_peerings.json
+          # parameters: ./h&s/vnet_peerings.json
 
     # build:
     #   runs-on: ubuntu-latest
