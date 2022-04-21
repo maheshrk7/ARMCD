@@ -41,10 +41,4 @@ jobs:
               echo "$file was changed"
             done
 
-        - name: Cut files
-          id: get-id
-          run: |
-            id=$(echo ${{ steps.changed-files.outputs.all_changed_files }} | cut -d " ")
-            echo "::set-output name=id::$id"
-            echo "${{steps.get-id.outputs.id}}"
           
