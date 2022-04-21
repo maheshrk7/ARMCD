@@ -16,7 +16,7 @@ jobs:
           subscriptionId: e3b99daf-a8ca-4cfd-b706-3eecdcb8a894
           resourceGroupName: testARM
           template: ./h&s/spoke.json
-          # parameters: ./h&s/spoke.json
+          # parameters: ./h&s/spokes.json
 
     # build:
     #   runs-on: ubuntu-latest
