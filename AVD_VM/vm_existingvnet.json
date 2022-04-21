@@ -27,7 +27,7 @@
     },
     "vmName": {
       "type": "string",
-      "defaultValue": "publicipVM",
+      "defaultValue": "testVM",
       "metadata": {
         "title": "VM Name",
         "description": "This is the name of the your VM"
