@@ -18,6 +18,18 @@
       "type": "string",
       "defaultValue": "3f72c783-688d-4a9e-bdf6-dc60b3108393"
     },
+    "enabledForDeployment": {
+           "type": "string",
+           "defaultValue": "false"
+        },
+    "enabledForTemplateDeployment": {
+            "type": "string",
+            "defaultValue": "false"
+        },
+    "enabledForDiskEncryption": {
+            "type": "string",
+            "defaultValue": "false"
+        },
     "secretName": {
       "type": "string",
       "defaultValue": "vmAdminPassword"
@@ -41,9 +53,9 @@
       "name": "[parameters('keyVaultName')]",
       "location": "[parameters('location')]",
       "properties": {
-        "enabledForDeployment": false,
-        "enabledForTemplateDeployment": true,
-        "enabledForDiskEncryption": false,
+        "enabledForDeployment": "[parameters('enabledForDeployment')]",
+        "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+        "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
         "networkAcls": "[parameters('networkAcls')]",
         "accessPolicies": [
           {

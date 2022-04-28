@@ -190,6 +190,15 @@
       "condition": "[not(equals(length(variables('subnets')[copyIndex(0)].NSGRules),0))]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('subnets')[copyIndex(0)].NetworkSecurityGroup]",
+      "tags": {
+                "Application": "Core Service",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+            },
       "location": "[resourceGroup().location]",
       "apiVersion": "2019-11-01",
       "copy": {
@@ -359,7 +368,15 @@
           }
         ]
       },
-      "tags": {}
+      "tags": {
+        "Application": "CoreService_pip",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      }
     },
 	{
       "type": "Microsoft.Network/azureFirewalls",
@@ -400,7 +417,15 @@
         "[resourceId('Microsoft.Network/publicIPAddresses', parameters('vnetHubvirtualNetworkGateways').vgwpip )]",
 		"pipCopy"
       ],
-      "tags": {},
+      "tags": {
+        "Application": "CoreService_vnetgateway",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      },
       "properties": {
         "gatewayType": "[parameters('vnetHubvirtualNetworkGateways').gwType]",
         "ipConfigurations": [
@@ -426,6 +451,15 @@
     {
 		    "apiVersion": "2015-06-15",
 		    "type": "Microsoft.Network/expressRouteCircuits",
+        "tags": {
+        "Application": "CoreService_vnetgateway",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      },
 		    "name": "[parameters('vnetHubExpressRouteCircuit').ERName]",
 		    "location": "[resourceGroup().location]",
 		    "sku": {

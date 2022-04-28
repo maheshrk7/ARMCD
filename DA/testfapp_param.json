@@ -1,0 +1,51 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "test1122fapp"
+        },
+        "appInsightName": {
+            "value": "test1122fapp"
+          },
+        "location": {
+            "value": "Central US"
+        },
+        "hostingPlanName": {
+            "value": "testfappasp1122"
+        },
+        "alwaysOn": {
+            "value": true
+        },
+        "storageAccountName": {
+            "value": "whateverstoracc"
+        },
+        "sku": {
+            "value": "PremiumV2"
+        },
+        "skuCode": {
+            "value": "P1v2"
+        },
+        "workerSize": {
+            "value": "3"
+        },
+        "workerSizeId": {
+            "value": "3"
+        },
+        "numberOfWorkers": {
+            "value": "1"
+        },
+        "use32BitWorkerProcess": {
+            "value": false
+        },
+        "linuxFxVersion": {
+            "value": "Python|3.9"
+        },
+        "vnetName": {
+            "value": "da_vnet"
+        },
+         "subnetName": {
+            "value": "function-us-da-dev-centralus-vnet01-snet01"
+    }
+    }
+}
