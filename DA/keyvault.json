@@ -53,15 +53,15 @@
             "type": "string",
             "defaultValue": "test_vault_pe"
         },
-        "vnetName": {
+    "vnetName": {
             "type": "string",
             "defaultValue": "da_vnet"
         },
-        "subnetName": {
+    "subnetName": {
             "type": "string",
             "defaultValue": "pe-us-sharedservices-pe-centralus-vnet01-snet01"
         },
-        "groupId": {
+    "groupId": {
             "type": "string",
             "defaultValue": "vault"
         }
@@ -154,8 +154,7 @@
             "type": "Microsoft.Network/privateEndpoints",
             "location": "[resourceGroup().Location]",
             "dependsOn": [
-                       "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]",
-                       "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+                       "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
                     ],
             "properties": {
                 "privateLinkServiceConnections": [

@@ -11,11 +11,11 @@
             "properties": {
               "mode": "Incremental",
               "templateLink": {
-                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/testlapp.json",
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/keyvault.json",
                 "contentVersion": "1.0.0.0"
               },
               "parametersLink":{
-                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/testlapp_parameters.json",
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/keyvault_parameters.json",
                 "contentVersion": "1.0.0.0"
               }
             }
