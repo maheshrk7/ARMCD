@@ -24,7 +24,7 @@
             "value": "vmAdminPassword"
         },
         "location": {
-            "value": "centralus" 
+            "value": "centralust" 
         },
         "secretValue": {
             "value": "testing123"
