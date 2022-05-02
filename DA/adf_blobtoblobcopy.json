@@ -4,28 +4,24 @@
   "parameters": {
     "dataFactoryName": {
       "type": "string",
-
       "metadata": {
         "description": "Data Factory Name"
       }
     },
     "location": {
       "type": "string",
-      
       "metadata": {
         "description": "Location of the data factory."
       }
     },
     "storageAccountName": {
       "type": "string",
-      
       "metadata": {
         "description": "Name of the Azure storage account that contains the input/output data."
       }
     },
     "blobContainerName": {
       "type": "string",
-      
       "metadata": {
         "description": "Name of the blob container in the Azure Storage account."
       }

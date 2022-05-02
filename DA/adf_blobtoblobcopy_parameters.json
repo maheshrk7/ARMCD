@@ -3,16 +3,16 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "dataFactoryName": {
-            "value": "testdatafactorydeploy010" 
+            "value": "testdatafactorydep010" 
         },
         "location": {
             "value": "[resourceGroup().location]"
         },
         "storageAccountName": {
-            "value": "teststoracc00712" 
+            "value": "teststoracc0712" 
         },
         "blobContainerName": {
-            "value": "blobteststoracc712" 
+            "value": "blobteststorac712" 
         }
     }
 }

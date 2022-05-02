@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "storage",
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/adf_blobtoblobcopy.json",
+                "contentVersion": "1.0.0.0"
+              },
+              "parameters":{
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/adf_blobtoblobcopy_parameters.json",
+                "contentVersion": "1.0.0.0"
+              }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "workspace",
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/adls.json",
+                "contentVersion": "1.0.0.0"
+              }
+              // "parameters":{
+              //   "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/adls_parameters.json",
+              //   "contentVersion": "1.0.0.0"
+              // }
+            }
+        }
+    ]
+}
