@@ -85,7 +85,7 @@
             "SubnetName": "mgmt_coreservices_centralus_snet",
             "Prefixes": "10.0.0.128/26",
             "NetworkSecurityGroup": "mgmt_coreservices_nsg",
-			"UDRName": "mgmnt_udr",
+			      "UDRName": "mgmnt_udr",
             "NSGRules": [
                {
                 "RuleName": "ICMP",
@@ -191,7 +191,7 @@
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('subnets')[copyIndex(0)].NetworkSecurityGroup]",
       "tags": {
-                "Application": "Core Service",
+                "Application": "CoreService_VNet-NSG",
                 "ApplicationID": "TBD",
                 "CostCenter": "TBD",
                 "Environment": "Dev",
@@ -251,6 +251,15 @@
       "apiVersion": "2019-04-01",
       "name": "[parameters('vnetHub').vNetName]",
       "location": "[resourceGroup().location]",
+      "tags": {
+                "Application": "CoreService_VNet",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      },
       "dependsOn": [
         "SubnetNSG",
         "UDRcreate"
@@ -330,6 +339,15 @@
       "apiVersion": "2018-10-01",
       "name": "[parameters('pipNames')[copyIndex()]]",
       "location": "[resourceGroup().location]",
+      "tags": {
+                "Application": "CoreService_pip",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      },
       "copy": {
         "name": "pipCopy",
         "count": "[length(parameters('pipNames'))]",
@@ -369,7 +387,7 @@
         ]
       },
       "tags": {
-        "Application": "CoreService_pip",
+                "Application": "CoreService_bastion",
                 "ApplicationID": "TBD",
                 "CostCenter": "TBD",
                 "Environment": "Dev",
@@ -388,6 +406,15 @@
         "[resourceId('Microsoft.Network/publicIPAddresses', parameters('vnetHubFirewall').fwlpip)]",
 		"pipCopy"
       ],
+      "tags": {
+                "Application": "CoreService_azureFW",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      },
       "properties": {
         "ipConfigurations": [
           {
@@ -418,7 +445,7 @@
 		"pipCopy"
       ],
       "tags": {
-        "Application": "CoreService_vnetgateway",
+                "Application": "CoreService_vnetgateway",
                 "ApplicationID": "TBD",
                 "CostCenter": "TBD",
                 "Environment": "Dev",
@@ -452,7 +479,7 @@
 		    "apiVersion": "2015-06-15",
 		    "type": "Microsoft.Network/expressRouteCircuits",
         "tags": {
-        "Application": "CoreService_vnetgateway",
+        "Application": "CoreService_expressroutecircuit",
                 "ApplicationID": "TBD",
                 "CostCenter": "TBD",
                 "Environment": "Dev",

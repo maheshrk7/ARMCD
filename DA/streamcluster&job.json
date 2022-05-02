@@ -1,0 +1,67 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "string",
+            "defaultValue": "teststreamcluster"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "centralus"
+        },
+        "apiVersion": {
+            "type": "string",
+            "defaultValue": "2020-03-01"
+        },
+        "skuCapacity": {
+            "type": "int",
+            "defaultValue": 36
+        },
+        "streamAnalyticsJobName": {
+            "type": "string",
+            "defaultValue": "teststreamjob"
+        },
+         "numberOfStreamingUnits": {
+            "type": "int",
+            "defaultValue": 36
+    }
+    },
+    "resources": [
+        {
+            "apiVersion": "[parameters('apiVersion')]",
+            "name": "[parameters('name')]",
+            "location": "[parameters('location')]",
+            "type": "Microsoft.StreamAnalytics/clusters",
+            "tags": {},
+            "sku": {
+                "name": "Default",
+                "capacity": "[parameters('skuCapacity')]"
+            },
+            "properties": {}
+        },
+        {
+      "type": "Microsoft.StreamAnalytics/StreamingJobs",
+      "apiVersion": "2020-03-01",
+      "name": "[parameters('streamAnalyticsJobName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "sku": {
+          "name": "standard"
+        },
+        "outputErrorPolicy": "stop",
+        "eventsOutOfOrderPolicy": "adjust",
+        "eventsOutOfOrderMaxDelayInSeconds": 0,
+        "eventsLateArrivalMaxDelayInSeconds": 5,
+        "dataLocale": "en-US",
+        "transformation": {
+          "name": "Transformation",
+          "properties": {
+            "streamingUnits": "[parameters('numberOfStreamingUnits')]",
+            "query": "SELECT\r\n    *\r\nINTO\r\n    [YourOutputAlias]\r\nFROM\r\n    [YourInputAlias]"
+          }
+        }
+      }
+    }
+    ]
+}

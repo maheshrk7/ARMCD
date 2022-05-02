@@ -107,6 +107,15 @@
             "name": "[variables('subnets')[copyIndex()].NetworkSecurityGroup]",
             "location": "[resourceGroup().location]",
             "apiVersion": "2019-11-01",
+            "tags": {
+                "Application": "CoreService_spoke_nsg",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      },
             "copy": {
                 "name": "SubnetNSGLoop",
                 "count": "[length( variables('subnets') )]"
@@ -139,6 +148,15 @@
             "apiVersion": "2018-10-01",
 		        "name": "[parameters('UdrSpokeVNet')[copyIndex()]]",
             "location": "[resourceGroup().location]",
+            "tags": {
+                "Application": "CoreService_spoke_UDR",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      },
             "copy": {
                 "name": "UDRcopy",
                 "count": 
@@ -154,6 +172,15 @@
           "apiVersion": "2019-04-01",
           "name": "[parameters('spokeVnet').vNetName]",
           "location": "[resourceGroup().location]",
+          "tags": {
+                "Application": "CoreService_spoke_VNet",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      },
           "dependsOn": [
             "SubnetNSGLoop",
             "UDRcopy"
@@ -204,6 +231,15 @@
             "apiVersion": "2018-10-01",
             "name": "[parameters('pipNames')[copyIndex()]]",
             "location": "[resourceGroup().location]",
+            "tags": {
+                "Application": "CoreService_spoke_pip",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      },
             "copy": {
               "name": "pipCopy",
               "count": "[length(parameters('pipNames'))]"
@@ -220,6 +256,15 @@
           "type": "Microsoft.Network/bastionHosts",
           "name": "[parameters('vnetspokeBastion').bastionHostName]",
           "location": "[resourceGroup().location]",
+          "tags": {
+                "Application": "CoreService_spoke_bastion",
+                "ApplicationID": "TBD",
+                "CostCenter": "TBD",
+                "Environment": "Dev",
+                "ManagedBy": "Coreservice Team",
+                "POC": "Coreservice Team",
+                "ServiceClassification": "Private"
+      },
           "dependsOn": [
             "[resourceId('Microsoft.Network/publicIpAddresses', parameters('vnetspokeBastion').bastionpip)]",
             "[resourceId('Microsoft.Network/virtualNetworks', parameters('spokeVnet').vNetName)]",
@@ -239,8 +284,8 @@
                 }
               }
             ]
-      },
-      "tags": {}
+      }
+      
     }
       ]
 }

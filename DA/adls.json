@@ -1,0 +1,139 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vnetName": {
+            "type": "string",
+            "defaultValue": "da_vnet"
+        },
+        "subnetName": {
+            "type": "string",
+            "defaultValue": "pe-us-sharedservices-pe-centralus-vnet01-snet01"
+        },
+    "dataLakeStoreName": {
+        "type": "string",
+        "defaultValue": "adlstest0075",
+        "metadata": {
+            "description": "The name of the Data Lake Store account to create."
+        }
+     },
+     "adlsprivateEndpointName": {
+            "type": "string",
+            "defaultValue": "test_adls_pe"
+        },
+      
+        "adlsgroupId": {
+            "type": "string",
+            "defaultValue": "dfs"
+        }
+    },
+    "variables": {"adlsprivateDNSZone_name": "privatelink.dfs.core.windows.net",
+        "storageAccountName": "[parameters('dataLakeStoreName')]"},
+    "resources":[
+            {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2021-08-01",
+            "location": "[resourceGroup().location]",
+            "name": "[variables('storageAccountName')]",
+            "kind": "StorageV2",
+            "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+            "properties": {
+                "encryption": {
+                    "keySource": "Microsoft.Storage",
+                    "services": {
+                        "blob": {
+                            "enabled": true
+                        },
+                        "file": {
+                            "enabled": true
+                        }
+                    }
+                },
+                "isHnsEnabled": true,
+                "supportsHttpsTrafficOnly": true,
+                "allowBlobPublicAccess": false,
+                "allowSharedKeyAccess": false,
+                "minimumTlsVersion": "TLS1_2",
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "defaultAction": "Deny"
+                }
+            }
+        }
+    ,
+        {          
+            "apiVersion": "2019-04-01",
+            "name": "[parameters('adlsprivateEndpointName')]",
+            "type": "Microsoft.Network/privateEndpoints",
+            "location": "[resourceGroup().Location]",
+            "dependsOn": [
+                        "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataLakeStoreName'))]"
+                    ],
+            "properties": {
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "[parameters('adlsprivateEndpointName')]",
+                        "properties": {
+                            "privateLinkServiceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataLakeStoreName'))]",
+                            "groupIds": [
+                                "[parameters('adlsgroupId')]"
+                            ]
+                        }
+                    }
+                ],
+                "subnet": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName') )]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones",
+            "apiVersion": "2018-09-01",
+            "name": "[variables('adlsprivateDNSZone_name')]",
+            "dependsOn": [
+                "[parameters('adlsprivateEndpointName')]"
+            ],
+            "location": "global",
+            "tags": {},
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+            "apiVersion": "2018-09-01",
+            "name": "[concat(variables('adlsprivateDNSZone_name'), '/', parameters('vnetName'), 'link' )]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', variables('adlsprivateDNSZone_name'))]"
+            ],
+            "properties": {
+                "virtualNetwork": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vnetName'))]"
+                },
+                "registrationEnabled": false
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+            "apiVersion": "2020-03-01",
+            "name": "[concat(parameters('adlsprivateEndpointName'), '/', 'default')]",
+            "dependsOn": [
+                "[parameters('adlsprivateEndpointName')]",
+                "[variables('adlsprivateDNSZone_name')]"
+            ],
+            "location": "[resourceGroup().Location]",
+            "properties": {
+                "privateDnsZoneConfigs": [
+                    {
+                        "name": "ehubnamespace",
+                        "properties": {
+                            "privateDnsZoneId": "[resourceId('Microsoft.Network/privateDnsZones',variables('adlsprivateDNSZone_name'))]"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

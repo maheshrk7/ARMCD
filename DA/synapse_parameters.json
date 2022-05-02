@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "[resourceGroup().location]" 
+        },
+        "synapse_sql_adls_name": {
+            "value": "testsynapse"
+        },
+        "sparkDeployment": {
+            "value": "true"
+        },
+        "sparkNodeSize": {
+            "value": "Medium"
+        },
+        "sqlAdministratorLogin": {
+            "value": "sqlpooladmin"
+        },
+        "sqlAdministratorLoginPassword": {
+            "value": "synapsetesting@123"
+        },
+        "sku": {
+            "value": "DW100c"
+        },
+        "metadataSync": {
+            "value": false
+        },
+        "privateEndpointName": {
+            "value": "test_synapse_pe"
+        },
+        "vnetName": {
+            "value": "da_vnet"
+        },
+        "subnetName": {
+            "value": "pe-us-sharedservices-pe-centralus-vnet01-snet01"
+        },
+        "groupId": {
+            "value": "sql"
+        }
+    }
+}

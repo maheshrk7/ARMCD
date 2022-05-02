@@ -1,0 +1,52 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "keyVaultName": {
+            "value": "testing-kv-deploy"
+        },
+        "tenantId": {
+            "value": "[subscription().tenantId]"
+        },
+        "objectID": {
+            "value": "3f72c783-688d-4a9e-bdf6-dc60b3108393"
+        },
+        "enabledForDeployment": {
+            "value": "false"
+        },
+        "enabledForTemplateDeployment": {
+            "value": "false"
+        },
+        "enabledForDiskEncryption": {
+            "value": "false"
+        },
+        "secretName": {
+            "value": "vmAdminPassword"
+        },
+        "location": {
+            "value": "[resourceGroup().location]" 
+        },
+        "secretValue": {
+            "value": "testing123"
+        },
+        "networkAcls": {
+            "value": {
+                "defaultAction": "deny",
+                "bypass": "AzureServices"
+                
+            }
+        },
+        "privateEndpointName": {
+            "value": "test_vault_pe"
+        },
+        "vnetName": {
+            "value": "da_vnet"
+        },
+        "subnetName": {
+            "value": "pe-us-sharedservices-pe-centralus-vnet01-snet01"
+        },
+        "groupId": {
+            "value": "vault"
+        }
+    }
+}

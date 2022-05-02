@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "topicName": {
+            "value": "testtopic12345"
+        },
+        "subscriptionName": {
+            "value": "topictestsub"
+        },
+        "eventHubNamespace": {
+            "value": "gridtopicsub"
+        },
+        "eventHubName": {
+            "value": "testhub"
+        },
+        "location": {
+            "value": "[resourceGroup().location]"
+        },
+        "privateEndpointName": {
+            "value": "test_eventgrid_pe"
+        },
+        "vnetName": {
+            "value": "da_vnet"
+        },
+        "subnetName": {
+            "value": "pe-us-sharedservices-pe-centralus-vnet01-snet01"
+        },
+        "groupId": {
+            "value": "topic"
+        },
+        "ehubprivateEndpointName": {
+            "value": "test_eventhub_pe"
+        },
+        "ehubgroupId": {
+            "value": "namespace"
+        }
+    }
+}

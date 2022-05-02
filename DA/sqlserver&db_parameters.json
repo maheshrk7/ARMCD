@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "serverName": {
+            "value": "testserverarmdeploy123"
+        },
+        "location": {
+            "value": "[resourceGroup().location]" 
+        },
+        "administratorLogin": {
+            "value": "testserverarmdeployuser"
+        },
+        "administratorLoginPassword": {
+            "value": "Testingserver@123"
+        },
+        "enableADS": {
+            "value": true
+        },
+        "allowAzureIPs": {
+            "value": true
+        },
+        "connectionType": {
+            "value": "Default"
+        },
+        "sqlDBName": {
+            "value": "testdbpaas"
+        },
+        "privateEndpointName": {
+            "value": "test_azuresql_pe"
+        },
+        "vnetName": {
+            "value": "da_vnet"
+        },
+        "subnetName": {
+            "value": "pe-us-sharedservices-pe-centralus-vnet01-snet01"
+        },
+        "groupId": {
+            "value": "sqlServer"
+        }
+    }
+}

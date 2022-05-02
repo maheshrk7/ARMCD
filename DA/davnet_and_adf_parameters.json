@@ -1,0 +1,103 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "DAVNet": {
+            "value": {
+              "vNetName": "da_vnet",
+              "Prefixes": "10.0.0.0/19",
+              "RGName": "testARM",        
+              "subnets": [
+                {
+                  "SubnetName": "function-us-da-dev-centralus-vnet01-snet01",
+                  "Prefixes": "10.0.1.0/24",
+                  "NetworkSecurityGroup": "fapp_centralus_nsg",
+                  "UDRName": "da-dev-centralus-vnet-snet01-udr001",
+                  "NSGRules": [
+                    {
+                      "RuleName": "Bastion_Connection",
+                      "Description": "-",
+                      "Priority": 100,
+                      "SourceAddressPrefix": "10.0.0.0/16",
+                      "DestinationAddressPrefix": "10.0.0.0/16",
+                      "DestinationPortRange": ["22","3389"],
+                      "Protocol": "TCP",
+                      "Access": "Allow",
+                      "Direction": "Inbound",
+                      "SourcePortRange": "*"
+                    },
+             {
+                   "RuleName": "ICMP",
+                      "Description": "-",
+                      "Priority": 101,
+                      "SourceAddressPrefix": "*",
+                      "DestinationAddressPrefix": "*",
+                      "DestinationPortRange": ["1-65535"],
+                      "Protocol": "ICMP",
+                      "Access": "Allow",
+                      "Direction": "Inbound",
+                      "SourcePortRange": "*"
+                }
+                  ]
+                },
+                {
+                  "SubnetName": "logicapp-us-da-dev-centralus-vnet01-snet01",
+                  "Prefixes": "10.0.2.0/23",
+                  "NetworkSecurityGroup": "lapp_centralus_nsg",
+                  "UDRName": "da-dev-centralus-vnet-snet01-udr001",
+                  "NSGRules": [
+                    {
+                      "RuleName": "ICMP",
+                      "Description": "-",
+                      "Priority": 102,
+                      "SourceAddressPrefix": "*",
+                      "DestinationAddressPrefix": "*",
+                      "DestinationPortRange": ["1-65535"],
+                      "Protocol": "ICMP",
+                      "Access": "Allow",
+                      "Direction": "Inbound",
+                      "SourcePortRange": "*"
+                    }
+                  ]
+                },
+                 {
+                  "SubnetName": "pe-us-sharedservices-pe-centralus-vnet01-snet01",
+                  "Prefixes": "10.0.4.0/23",
+                  "NetworkSecurityGroup": "pe_centralus_nsg",
+                  "UDRName": "da-dev-centralus-vnet-snet01-udr001",
+                  "NSGRules": [
+                    {
+                      "RuleName": "ICMP",
+                      "Description": "-",
+                      "Priority": 102,
+                      "SourceAddressPrefix": "*",
+                      "DestinationAddressPrefix": "*",
+                      "DestinationPortRange": ["1-65535"],
+                      "Protocol": "ICMP",
+                      "Access": "Allow",
+                      "Direction": "Inbound",
+                      "SourcePortRange": "*"
+                    }
+                  ]
+                }
+              ]
+            }
+        },
+        "name": {
+            "value": "testdatafactoryarm001"
+        },
+        "newOrExisting": {
+            "value": "new"
+        },
+       
+        "location": {
+            "value": "[resourceGroup().location]" 
+        },
+        
+        "UdrDaVnet": {
+            "value": [
+                  "da-dev-centralus-vnet-snet01-udr001"    
+            ]
+        }
+    }
+}
