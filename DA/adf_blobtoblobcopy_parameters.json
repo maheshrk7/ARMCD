@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "dataFactoryName": {
-            "value": "testdatafactorydep010" 
+            "value": "datafactmaherk010" 
         },
         "location": {
             "value": "[resourceGroup().location]"

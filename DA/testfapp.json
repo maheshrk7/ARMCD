@@ -6,7 +6,7 @@
             "type": "string"
         },
         "appInsightName": {
-      "type": "String"
+            "type": "String"
     },
         "location": {
             "type": "string"

@@ -46,6 +46,9 @@
         },
          "subnetName": {
             "value": "function-us-da-dev-centralus-vnet01-snet01"
-    }
+    },
+    "privateEndpointName": {"value": "test_fapp_pe"},
+        "pesubnetName": {"value": "pe-us-sharedservices-pe-centralus-vnet01-snet01"},
+            "groupId": {"value": "sites"}
     }
 }
