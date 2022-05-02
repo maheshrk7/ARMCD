@@ -6,7 +6,7 @@
     "resources": [
         {
             "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2018-05-01",
+            "apiVersion": "2021-04-01",
             "name": "storage",
             "properties": {
               "mode": "Incremental",
@@ -14,7 +14,7 @@
                 "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/keyvault.json",
                 "contentVersion": "1.0.0.0"
               },
-              "parameters":{
+              "parametersLink":{
                 "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/keyvault_parameters.json",
                 "contentVersion": "1.0.0.0"
               }
