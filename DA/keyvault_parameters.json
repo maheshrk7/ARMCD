@@ -24,7 +24,7 @@
             "value": "vmAdminPassword"
         },
         "location": {
-            "value": "[resourceGroup().location]" 
+            "value": "centralus" 
         },
         "secretValue": {
             "value": "testing123"
