@@ -15,7 +15,7 @@
             "value": "testhub"
         },
         "location": {
-            "value": "[resourceGroup().location]"
+            "value": "centralus"
         },
         "privateEndpointName": {
             "value": "test_eventgrid_pe"

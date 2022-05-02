@@ -9,7 +9,7 @@
             "value": "dbws-pri-da-rr-nprd-cus-snet"
         },
         "location": {
-            "value": "[resourceGroup().location]" 
+            "value": "centralus" 
         },
         "workspaceName": {
             "value": "databrickstestdeploy"

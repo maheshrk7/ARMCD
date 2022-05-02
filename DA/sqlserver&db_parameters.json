@@ -6,7 +6,7 @@
             "value": "testserverarmdeploy123"
         },
         "location": {
-            "value": "[resourceGroup().location]" 
+            "value": "centralus" 
         },
         "administratorLogin": {
             "value": "testserverarmdeployuser"

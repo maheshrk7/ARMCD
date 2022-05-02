@@ -91,7 +91,7 @@
         },
        
         "location": {
-            "value": "[resourceGroup().location]" 
+            "value": "centralus" 
         },
         
         "UdrDaVnet": {

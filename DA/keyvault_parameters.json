@@ -1,12 +1,12 @@
 { 
-     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-     "contentVersion": "1.0.0.0",
-      "parameters": {
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
         "keyVaultName": {
             "value": "testing-kv-deploy"
         },
         "tenantId": {
-            "value": "[subscription().tenantId]"
+            "value": "513294a0-3e20-41b2-a970-6d30bf1546fa"
         },
         "objectID": {
             "value": "3f72c783-688d-4a9e-bdf6-dc60b3108393"

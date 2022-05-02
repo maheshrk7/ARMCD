@@ -6,7 +6,7 @@
             "value": "datafactmaherk010" 
         },
         "location": {
-            "value": "[resourceGroup().location]"
+            "value": "centralus"
         },
         "storageAccountName": {
             "value": "teststoracc0712" 
