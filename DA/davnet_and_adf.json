@@ -1,3 +1,4 @@
+// "Since a loop runs to populate and create subnets, the delegation is applied to all subnets. To delegate only for a particular subnet, use conditional property deployment"
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
@@ -170,7 +171,6 @@
 	},
 
   {
-    "condition": "[equals(parameters('newOrExisting'), 'existing')]",
       "type": "Microsoft.Network/virtualNetworks",
       "apiVersion": "2019-04-01",
       "name": "[parameters('DAVNet').vNetName]",

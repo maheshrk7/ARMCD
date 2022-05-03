@@ -7,7 +7,115 @@
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2021-04-01",
+            "name": "DAVnet_ADF",
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/davnet_and_adf.json",
+                "contentVersion": "1.0.0.0"
+              },
+              "parametersLink":{
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/davnet_and_adf_parameters.json",
+                "contentVersion": "1.0.0.0"
+              }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
             "name": "storage",
+            "dependsOn": [
+              "[resourceId('Microsoft.Resources/deployments', 'DAVnet_ADF')]"],
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/adls.json",
+                "contentVersion": "1.0.0.0"
+              },
+              "parametersLink":{
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/adls_parameters.json",
+                "contentVersion": "1.0.0.0"
+              }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
+            "name": "storage",
+            "dependsOn": [
+              "[resourceId('Microsoft.Resources/deployments', 'DAVnet_ADF')]"],
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/testfapp.json",
+                "contentVersion": "1.0.0.0"
+              },
+              "parametersLink":{
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/testfapp_parameters.json",
+                "contentVersion": "1.0.0.0"
+              }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
+            "name": "storage",
+            "dependsOn": [
+              "[resourceId('Microsoft.Resources/deployments', 'DAVnet_ADF')]"],
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/testlapp.json",
+                "contentVersion": "1.0.0.0"
+              },
+              "parametersLink":{
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/testlapp_parameters.json",
+                "contentVersion": "1.0.0.0"
+              }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
+            "name": "storage",
+            "dependsOn": [
+              "[resourceId('Microsoft.Resources/deployments', 'DAVnet_ADF')]"],
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/databricks.json",
+                "contentVersion": "1.0.0.0"
+              },
+              "parametersLink":{
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/databricks_parameters.json",
+                "contentVersion": "1.0.0.0"
+              }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
+            "name": "storage",
+            "dependsOn": [
+              "[resourceId('Microsoft.Resources/deployments', 'DAVnet_ADF')]"],
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/gridnhub.json",
+                "contentVersion": "1.0.0.0"
+              },
+              "parametersLink":{
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/gridnhub_parameters.json",
+                "contentVersion": "1.0.0.0"
+              }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
+            "name": "storage",
+            "dependsOn": [
+              "[resourceId('Microsoft.Resources/deployments', 'DAVnet_ADF')]"],
             "properties": {
               "mode": "Incremental",
               "templateLink": {
@@ -19,7 +127,62 @@
                 "contentVersion": "1.0.0.0"
               }
             }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
+            "name": "storage",
+            "dependsOn": [
+              "[resourceId('Microsoft.Resources/deployments', 'DAVnet_ADF')]"],
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/sqlserver&db.json",
+                "contentVersion": "1.0.0.0"
+              },
+              "parametersLink":{
+                "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/sqlserver&db_parameters.json",
+                "contentVersion": "1.0.0.0"
+              }
+            }
+        },
+        {
+          "type": "Microsoft.Resources/deployments",
+          "apiVersion": "2021-04-01",
+          "name": "storage",
+          "dependsOn": [
+            "[resourceId('Microsoft.Resources/deployments', 'DAVnet_ADF')]"],
+          "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+              "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/streamcluster&job.json",
+              "contentVersion": "1.0.0.0"
+            },
+            "parametersLink":{
+              "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/streamcluster&job_parameters.json",
+              "contentVersion": "1.0.0.0"
+            }
+          }
+        },
+        {
+          "type": "Microsoft.Resources/deployments",
+          "apiVersion": "2021-04-01",
+          "name": "storage",
+          "dependsOn": [
+            "[resourceId('Microsoft.Resources/deployments', 'DAVnet_ADF')]"],
+          "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+              "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/synapse.json",
+              "contentVersion": "1.0.0.0"
+            },
+            "parametersLink":{
+              "uri": "https://raw.githubusercontent.com/maheshrk7/ARMCD/master/DA/synapse_parameters.json",
+              "contentVersion": "1.0.0.0"
+            }
+          }
         }
+       
        
     ]
 }
