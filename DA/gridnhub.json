@@ -61,12 +61,17 @@
         "ehubgroupId": {
             "type": "string",
             "defaultValue": "namespace"
+        },
+        "streamAnalyticsJobName": {
+            "type": "string",
+            "defaultValue": "[reference(resourceId('Microsoft.Resources/deployments', 'stream')).outputs.streamAnalyticsJobName.value]"
         }
+        
     },
       "variables": {
         "privateDNSZone_name": "privatelink.eventgrid.azure.net",
-       "ehubprivateDNSZone_name": "privatelink.servicebus.windows.net"
-		
+       "ehubprivateDNSZone_name": "privatelink.servicebus.windows.net",
+       "azureEventHubsDataOwnerRBACRoleID": "f526a384-b230-433a-b45c-95f59c4a2dec"
     },
     "resources": [
         {
@@ -102,6 +107,22 @@
                 }
             ]
         },
+        {
+             
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2020-04-01-preview",
+              "scope": "[format('Microsoft.EventHub/namespaces/{0}', parameters('eventHubNamespace'))]",
+              "name": "[guid(parameters('eventHubNamespace'), 'Event Hubs Data Receiver')]",
+              "properties": {
+                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('azureEventHubsDataOwnerRBACRoleID'))]",
+                "principalId": "[reference(resourceId('Microsoft.StreamAnalytics/streamingjobs', parameters('streamAnalyticsJobName')),'2020-03-01', 'full').identity.principalId]",
+                "principalType": "ServicePrincipal"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('eventHubNamespace'))]",
+                "[resourceId('Microsoft.StreamAnalytics/streamingjobs', parameters('streamAnalyticsJobName'))]"
+              ]
+            },
         {
             "scope": "[format('Microsoft.EventGrid/topics/{0}', parameters('topicName'))]",
             "type": "Microsoft.EventGrid/eventSubscriptions",

@@ -149,7 +149,7 @@
         {
           "type": "Microsoft.Resources/deployments",
           "apiVersion": "2021-04-01",
-          "name": "storage",
+          "name": "stream",
           "dependsOn": [
             "[resourceId('Microsoft.Resources/deployments', 'DAVnet_ADF')]"],
           "properties": {

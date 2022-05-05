@@ -49,6 +49,10 @@
         "sku": {
           "name": "standard"
         },
+        "identity": {
+                "type": "SystemAssigned"
+              },
+            "jobType": "Cloud",
         "outputErrorPolicy": "stop",
         "eventsOutOfOrderPolicy": "adjust",
         "eventsOutOfOrderMaxDelayInSeconds": 0,
@@ -63,5 +67,13 @@
         }
       }
     }
-    ]
+    
+    
+    ],
+    "outputs": {
+    "streamAnalyticsJobName": {
+              "type": "string",
+              "value": "[parameters('streamAnalyticsJobName')]"
+            }
+    }
 }

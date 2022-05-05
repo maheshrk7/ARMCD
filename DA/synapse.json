@@ -84,34 +84,33 @@
   "variables": {
     "synapseName": "[parameters('synapse_sql_adls_name')]",
     "adlsName": "[toLower(concat(variables('synapseName'),'adls001'))]",
-    "adlsFsName": "[toLower(concat(variables('synapseName'),'fs001'))]",
     "sqlPoolName": "[toLower(concat(variables('workspaceName'),'pool001'))]",
     "workspaceName": "[toLower(concat(variables('synapseName'),'wsp001'))]",
     "sparkPoolName": "[toLower('synasp001')]",
-    "privateDNSZone_name": "privatelink.sql.azuresynapse.net"
+    "privateDNSZone_name": "privatelink.sql.azuresynapse.net",
+    "adlsFsName": "[toLower(concat(variables('synapseName'),'fs001'))]",
+    "azureRBACStorageBlobDataContributorRoleID": "ba92f5b4-2d11-453d-a403-e96b0029c9fe"
   },
   "resources": [
   
-    {
+   {
       "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2019-06-01",
+      "apiVersion": "2021-02-01",
       "name": "[variables('adlsName')]",
       "location": "[parameters('location')]",
-      "sku": {
-        "name": "Standard_LRS"
-      },
-      "kind": "StorageV2",
       "properties": {
-        "accessTier": "Hot",
-        "supportsHttpsTrafficOnly": true,
         "isHnsEnabled": true,
-         "allowBlobPublicAccess": false,
-          "allowSharedKeyAccess": false,
-          "minimumTlsVersion": "TLS1_2",
-          "networkAcls": {
-            "bypass": "AzureServices",
-            "defaultAction": "Deny"
-          }
+        "accessTier": "Hot",
+        "networkAcls": {
+          "defaultAction": "Deny",
+          "bypass": "None",
+          "resourceAccessRules": [
+            {
+              "tenantId": "[subscription().tenantId]",
+              "resourceId": "[resourceId('Microsoft.Synapse/workspaces', variables('workspaceName'))]"
+            }
+          ]
+        }
       },
       "resources": [
         {
@@ -125,6 +124,13 @@
             "publicAccess": "None"
           }
         }
+      ],
+      "kind": "StorageV2",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Synapse/workspaces', variables('workspaceName'))]"
       ]
     },
     {
@@ -164,6 +170,21 @@
         
       ]
     },
+    {
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2020-08-01-preview",
+              "scope": "[format('Microsoft.Storage/storageAccounts/{0}', variables('adlsName'))]",
+              "name": "[guid(variables('workspaceName'), variables('adlsName'))]",
+              "properties": {
+                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('azureRBACStorageBlobDataContributorRoleID'))]",
+                "principalId": "[reference(resourceId('Microsoft.Synapse/workspaces', variables('workspaceName')), '2021-06-01', 'full').identity.principalId]",
+                "principalType": "ServicePrincipal"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Synapse/workspaces', variables('workspaceName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('adlsName'))]"
+              ]
+            },
     {
       "type": "Microsoft.Synapse/workspaces/sqlPools",
       "apiVersion": "2019-06-01-preview",
